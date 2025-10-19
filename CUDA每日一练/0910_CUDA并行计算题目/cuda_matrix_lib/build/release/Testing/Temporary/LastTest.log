@@ -1,0 +1,52 @@
+Start testing: Sep 10 14:03 CST
+----------------------------------------------------------
+1/1 Testing: error_handler_tests
+1/1 Test: error_handler_tests
+Command: "/home/jonson/cuda-learning/CUDA每日一练/0910_CUDA并行计算题目/cuda_matrix_lib/build/release/test_error_handler"
+Directory: /home/jonson/cuda-learning/CUDA每日一练/0910_CUDA并行计算题目/cuda_matrix_lib/build/release
+"error_handler_tests" start time: Sep 10 14:03 CST
+Output:
+----------------------------------------------------------
+=== CUDA错误处理类单元测试 ===
+测试1: CUDA错误异常基本功能
+CUDA error at /home/jonson/cuda-learning/CUDA每日一练/0910_CUDA并行计算题目/cuda_matrix_lib/tests/unit_tests/test_error_handler.cpp:17, code=1 (test_cuda_error_basic)
+✓ 异常被正确抛出
+  错误信息: invalid argument
+✓ 错误信息包含CUDA错误描述
+
+测试2: 不同CUDA错误码处理
+CUDA error at /home/jonson/cuda-learning/CUDA每日一练/0910_CUDA并行计算题目/cuda_matrix_lib/tests/unit_tests/test_error_handler.cpp:39, code=2 (test_different_cuda_errors)
+✓ 内存分配错误: out of memory
+CUDA error at /home/jonson/cuda-learning/CUDA每日一练/0910_CUDA并行计算题目/cuda_matrix_lib/tests/unit_tests/test_error_handler.cpp:46, code=100 (test_different_cuda_errors)
+✓ 设备未找到错误: no CUDA-capable device is detected
+CUDA error at /home/jonson/cuda-learning/CUDA每日一练/0910_CUDA并行计算题目/cuda_matrix_lib/tests/unit_tests/test_error_handler.cpp:53, code=0 (test_different_cuda_errors)
+✓ 成功状态: no error
+
+测试3: 异常继承关系
+CUDA error at /home/jonson/cuda-learning/CUDA每日一练/0910_CUDA并行计算题目/cuda_matrix_lib/tests/unit_tests/test_error_handler.cpp:66, code=9 (test_exception_inheritance)
+✓ 可以捕获基类std::runtime_error异常
+  基类错误信息: invalid configuration argument
+CUDA error at /home/jonson/cuda-learning/CUDA每日一练/0910_CUDA并行计算题目/cuda_matrix_lib/tests/unit_tests/test_error_handler.cpp:74, code=9 (test_exception_inheritance)
+✓ 可以捕获基类std::exception异常
+  异常基类信息: invalid configuration argument
+
+测试4: 调试信息参数
+CUDA error at test_file.cpp:123, code=1 (test_function)
+✓ 调试信息参数测试完成
+  应该看到printf输出包含文件、行号、错误码和函数信息
+
+测试5: 默认函数参数
+CUDA error at /home/jonson/cuda-learning/CUDA每日一练/0910_CUDA并行计算题目/cuda_matrix_lib/tests/unit_tests/test_error_handler.cpp:108, code=1 ((null))
+✓ 默认函数参数测试完成
+  应该看到printf输出中function为nullptr
+
+=== 所有测试通过！ ===
+<end of output>
+Test time =   0.10 sec
+----------------------------------------------------------
+Test Passed.
+"error_handler_tests" end time: Sep 10 14:03 CST
+"error_handler_tests" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Sep 10 14:03 CST

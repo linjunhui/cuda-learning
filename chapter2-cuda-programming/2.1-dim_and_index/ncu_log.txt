@@ -1,0 +1,3 @@
+==PROF== Connected to process 55861 (/home/jonson/cuda-learning/chapter2-cuda-programming/2.1-dim_and_index/a.out)
+==ERROR== Unknown Error on device 0.
+==PROF== Disconnected from process 55861

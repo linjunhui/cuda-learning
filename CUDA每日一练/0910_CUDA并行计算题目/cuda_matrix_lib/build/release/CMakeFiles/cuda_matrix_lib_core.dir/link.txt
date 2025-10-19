@@ -1,0 +1,2 @@
+/usr/bin/ar qc libcuda_matrix_lib_core.a CMakeFiles/cuda_matrix_lib_core.dir/src/core/error_handler.cpp.o
+/usr/bin/ranlib libcuda_matrix_lib_core.a

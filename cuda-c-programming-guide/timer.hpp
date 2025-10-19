@@ -1,0 +1,5 @@
+#program once
+
+class Timer {
+
+}
