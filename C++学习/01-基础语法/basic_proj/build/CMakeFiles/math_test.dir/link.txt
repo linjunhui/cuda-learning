@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/math_test.dir/tests/math_test.cpp.o CMakeFiles/math_test.dir/src/math.cpp.o -o math_test  libmathLib.a lib/libgtest_main.a lib/libgtest.a 

@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wall -Wextra CMakeFiles/test_fixed_size_pool.dir/tests/unit_tests/memory_pool/test_fixed_size_pool.cpp.o -o test_fixed_size_pool  libStringProcessingLib.a lib/libgtest_main.a lib/libgtest.a 

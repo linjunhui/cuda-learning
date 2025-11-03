@@ -1,0 +1,29 @@
+Start testing: Nov 01 20:22 CST
+----------------------------------------------------------
+1/1 Testing: FixedSizePoolTest
+1/1 Test: FixedSizePoolTest
+Command: "/home/jonson/cuda-learning/每周题目/C++题目/第1周/StringProcessingLib/build/test_fixed_size_pool"
+Directory: /home/jonson/cuda-learning/每周题目/C++题目/第1周/StringProcessingLib/build
+"FixedSizePoolTest" start time: Nov 01 20:22 CST
+Output:
+----------------------------------------------------------
+Running main() from /home/jonson/cuda-learning/每周题目/C++题目/第1周/StringProcessingLib/build/_deps/googletest-src/googletest/src/gtest_main.cc
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from FixedSizePoolTest
+[ RUN      ] FixedSizePoolTest.Initialization
+[       OK ] FixedSizePoolTest.Initialization (0 ms)
+[----------] 1 test from FixedSizePoolTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"FixedSizePoolTest" end time: Nov 01 20:22 CST
+"FixedSizePoolTest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Nov 01 20:22 CST
