@@ -98,9 +98,13 @@
    - 优点：利用经验发现潜在问题
 
 #### 测试分析方法
-- **KYM（Know Your Mission）**：了解你的使命，信息搜集方法
-- **TCO（Test Coverage Outline）**：测试覆盖大纲，整理测试覆盖范围
-- **PPDCS建模**：测试对象建模方法
+- **KYM（Know Your Mission）**：了解你的使命，信息搜集方法，用于需求分析和价值识别
+- **TCO（Test Coverage Outline / Testing Coverage Outline）**：测试覆盖大纲，整理测试覆盖范围
+- **PPDCS建模**：测试对象建模方法，使用Process-Product-Data-Control-State维度描述测试对象
+- **Tcon（Test Context）**：测试场景，从模型输出的测试场景
+
+#### 术语说明
+详见本目录或[学习总结](../学习总结/)中的完整术语表。
 
 #### 测试驱动方法
 - **ATDD（验收测试驱动开发）**：先写验收测试，再开发
