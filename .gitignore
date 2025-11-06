@@ -1,0 +1,186 @@
+# Build directories
+build/
+builds/
+_build/
+out/
+output/
+dist/
+target/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+eggs/
+*.egg
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+venv/
+env/
+ENV/
+.venv
+
+# C++ / CUDA
+*.o
+*.a
+*.so
+*.dylib
+*.exe
+*.out
+*.dll
+*.obj
+*.exp
+*.lib
+*.pdb
+*.ilk
+*.su
+*.idb
+*.ipdb
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+CMakeScripts/
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+_deps/
+*.cmake
+!CMakeLists.txt
+
+# IDE - VSCode
+.vscode/
+*.code-workspace
+.history/
+
+# IDE - JetBrains
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# IDE - Visual Studio
+.vs/
+*.vcxproj.user
+*.suo
+*.user
+*.sdf
+*.opensdf
+*.db
+*.opendb
+
+# IDE - Xcode
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+!*.xcodeproj/xcshareddata/
+*.xcworkspace/*
+!*.xcworkspace/contents.xcworkspacedata
+*.xcuserstate
+*.xcuserdatad
+project.xcworkspace
+xcuserdata/
+
+# Editor - Vim
+*.swp
+*.swo
+*~
+.*.swp
+.*.swo
+
+# Editor - Emacs
+*~
+\#*\#
+.\#*
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+logs/
+*.log.*
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+*.old
+*.orig
+
+# Compiled binaries and executables
+a.out
+*.exe
+*.bin
+
+# Package files
+*.tar.gz
+*.zip
+*.rar
+*.7z
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pyenv
+.python-version
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Profiling
+*.prof
+*.lprof
+*.gcda
+*.gcno
+*.gcov
+
+# CUDA specific
+*.cubin
+*.fatbin
+*.ptx
+*.cudafe1.*
+*.module_id
+*.reg.c
+
+# Documentation build
+docs/_build/
+site/
+
+# Local configuration
+local_config.*
+config.local.*

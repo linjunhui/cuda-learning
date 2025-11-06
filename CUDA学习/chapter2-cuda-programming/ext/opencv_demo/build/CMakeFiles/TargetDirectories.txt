@@ -1,3 +1,0 @@
-/home/jonson/cuda-learning/chapter2-cuda-programming/ext/opencv_demo/build/CMakeFiles/OpenCVDemo.dir
-/home/jonson/cuda-learning/chapter2-cuda-programming/ext/opencv_demo/build/CMakeFiles/edit_cache.dir
-/home/jonson/cuda-learning/chapter2-cuda-programming/ext/opencv_demo/build/CMakeFiles/rebuild_cache.dir

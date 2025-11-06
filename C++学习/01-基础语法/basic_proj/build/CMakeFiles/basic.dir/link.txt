@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/basic.dir/src/main.cpp.o -o basic  libmathLib.a 

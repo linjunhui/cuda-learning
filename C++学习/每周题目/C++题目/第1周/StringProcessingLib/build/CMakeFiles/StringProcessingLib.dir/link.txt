@@ -1,2 +1,0 @@
-/usr/bin/ar qc libStringProcessingLib.a CMakeFiles/StringProcessingLib.dir/src/memory_pool/fixed_size_pool.cpp.o
-/usr/bin/ranlib libStringProcessingLib.a

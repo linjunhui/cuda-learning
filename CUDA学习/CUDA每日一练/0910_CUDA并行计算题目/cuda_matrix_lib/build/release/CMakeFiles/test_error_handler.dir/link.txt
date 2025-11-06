@@ -1,1 +1,0 @@
-/usr/bin/c++  -Wall -Wextra -Wpedantic -O3 -DNDEBUG CMakeFiles/test_error_handler.dir/tests/unit_tests/test_error_handler.cpp.o -o test_error_handler  -Wl,-rpath,/usr/local/cuda-12.6/targets/x86_64-linux/lib libcuda_matrix_lib_core.a /usr/local/cuda-12.6/targets/x86_64-linux/lib/libcudart.so 

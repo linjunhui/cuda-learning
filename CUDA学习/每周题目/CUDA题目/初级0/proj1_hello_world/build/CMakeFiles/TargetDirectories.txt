@@ -1,3 +1,0 @@
-/home/jonson/cuda-learning/每周题目/CUDA题目/初级0/proj1_hello_world/build/CMakeFiles/hello_cuda.dir
-/home/jonson/cuda-learning/每周题目/CUDA题目/初级0/proj1_hello_world/build/CMakeFiles/edit_cache.dir
-/home/jonson/cuda-learning/每周题目/CUDA题目/初级0/proj1_hello_world/build/CMakeFiles/rebuild_cache.dir
