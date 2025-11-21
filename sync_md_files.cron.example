@@ -1,0 +1,35 @@
+# MD文件同步脚本 - Cron 配置示例
+# 
+# 使用方法：
+# 1. 复制此文件内容到 crontab：
+#    crontab -e
+#    然后粘贴下面的配置（根据你的需求选择一行）
+#
+# 2. 或者直接导入：
+#    crontab sync_md_files.cron.example
+#
+# 注意：请将路径替换为你的实际项目路径
+
+# 每 30 分钟执行一次
+*/30 * * * * cd /home/jonson/cuda-learning && /home/jonson/cuda-learning/sync_md_files.sh >/dev/null 2>&1
+
+# 每小时执行一次（推荐）
+# 0 * * * * cd /home/jonson/cuda-learning && /home/jonson/cuda-learning/sync_md_files.sh >/dev/null 2>&1
+
+# 每 6 小时执行一次
+# 0 */6 * * * cd /home/jonson/cuda-learning && /home/jonson/cuda-learning/sync_md_files.sh >/dev/null 2>&1
+
+# 每天凌晨 2 点执行一次
+# 0 2 * * * cd /home/jonson/cuda-learning && /home/jonson/cuda-learning/sync_md_files.sh >/dev/null 2>&1
+
+# 每天上午 9 点和下午 6 点各执行一次
+# 0 9,18 * * * cd /home/jonson/cuda-learning && /home/jonson/cuda-learning/sync_md_files.sh >/dev/null 2>&1
+
+# Cron 时间格式说明：
+# ┌───────────── 分钟 (0 - 59)
+# │ ┌───────────── 小时 (0 - 23)
+# │ │ ┌───────────── 日期 (1 - 31)
+# │ │ │ ┌───────────── 月份 (1 - 12)
+# │ │ │ │ ┌───────────── 星期 (0 - 6) (0 表示星期日)
+# │ │ │ │ │
+# * * * * * 命令
