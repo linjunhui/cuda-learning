@@ -24,24 +24,173 @@
 
 ## 📁 SGLang CUDA 代码结构
 
-### 核心目录
+### 完整目录结构
 
 ```
 sgl-kernel/csrc/
 ├── attention/          # 注意力机制
-│   ├── lightning_attention_decode_kernel.cu  # 解码阶段注意力
+│   ├── lightning_attention_decode_kernel.cu  # 解码阶段注意力 ⭐
 │   ├── cutlass_mla_kernel.cu                # CUTLASS 优化的 MLA
-│   └── merge_attn_states.cu                 # 合并注意力状态
+│   ├── merge_attn_states.cu                 # 合并注意力状态
+│   ├── cascade.cu                           # Cascade 注意力
+│   └── vertical_slash_index.cu              # Vertical Slash 索引
 ├── elementwise/        # 逐元素操作
-│   ├── activation.cu   # 激活函数（SiLU、GELU）
-│   ├── rope.cu         # RoPE 位置编码
-│   ├── copy.cu         # 内存拷贝
-│   └── topk.cu         # TopK 采样
+│   ├── activation.cu   # 激活函数（SiLU、GELU） ⭐
+│   ├── rope.cu         # RoPE 位置编码 ⭐
+│   ├── copy.cu         # 内存拷贝 ⭐
+│   ├── topk.cu         # TopK 采样 ⭐
+│   ├── cast.cu         # 类型转换
+│   ├── concat_mla.cu   # Concat MLA
+│   └── fused_add_rms_norm_kernel.cu  # 融合的残差连接和 RMSNorm ⭐
 ├── gemm/              # 矩阵乘法（GEMM）
-│   └── [各种量化 GEMM]
+│   ├── awq_kernel.cu   # AWQ 量化 GEMM
+│   ├── bmm_fp8.cu      # FP8 批量矩阵乘法
+│   ├── fp8_gemm_kernel.cu  # FP8 GEMM
+│   ├── int8_gemm_kernel.cu # INT8 GEMM
+│   ├── per_token_quant_fp8.cu  # Per-Token FP8 量化
+│   ├── per_token_group_quant_8bit.cu  # Per-Token-Group 8bit 量化
+│   ├── nvfp4_quant_entry.cu  # NVFP4 量化入口
+│   ├── dsv3_router_gemm_entry.cu  # DeepSeek-V3 Router GEMM
+│   ├── qserve_w4a8_per_chn_gemm.cu  # QServe W4A8 Per-Channel GEMM
+│   └── [更多量化 GEMM 实现]
 ├── moe/               # 混合专家（MoE）
-└── quantization/      # 量化相关
+│   ├── moe_topk_softmax_kernels.cu  # MoE TopK Softmax
+│   ├── moe_topk_sigmoid_kernels.cu  # MoE TopK Sigmoid
+│   ├── moe_sum.cu     # MoE 求和
+│   ├── moe_sum_reduce.cu  # MoE 求和归约
+│   ├── moe_fused_gate.cu  # MoE 融合门控
+│   ├── fp8_blockwise_moe_kernel.cu  # FP8 Blockwise MoE
+│   └── [更多 MoE 实现]
+├── allreduce/         # 通信原语
+├── grammar/           # 语法约束相关
+├── kvcacheio/         # KV Cache I/O
+├── mamba/             # Mamba 状态空间模型
+├── memory/            # 内存管理
+├── quantization/      # 量化相关
+├── spatial/           # 空间相关算子
+├── speculative/       # 推测解码相关
+└── expert_specialization/  # Expert 特化相关
 ```
+
+**⭐ 标记**：本文档详细讲解的算子（共 6 个）
+
+---
+
+## 📋 SGLang 完整算子列表
+
+### ⚠️ 说明
+
+本文档**不是**完整的算子列表，而是**选取了最核心、最适合学习的算子**进行详细讲解。
+
+**文档中详细讲解的算子**（6 个）：
+1. ✅ **Copy** - 最简单的算子，理解 CUDA 基础
+2. ✅ **Activation (SiLU/GELU)** - 激活函数，理解设备端函数
+3. ✅ **RoPE** - 旋转位置编码，理解复杂数学运算
+4. ✅ **Lightning Attention Decode** - 解码阶段注意力，理解共享内存和线程协作
+5. ✅ **TopK** - TopK 采样，理解复杂算法（基数排序）
+6. ✅ **Fused Add RMSNorm** - 融合操作，理解融合优化技巧
+
+**SGLang 中的其他重要算子**（未在本文档详细讲解）：
+
+### 1. Elementwise 算子（逐元素操作）
+
+| 算子 | 文件 | 功能 | 难度 |
+|------|------|------|------|
+| **Copy** | `copy.cu` | 内存拷贝 | ⭐ |
+| **Activation** | `activation.cu` | SiLU、GELU 激活函数 | ⭐⭐ |
+| **RoPE** | `rope.cu` | 旋转位置编码 | ⭐⭐⭐ |
+| **TopK** | `topk.cu` | TopK 采样 | ⭐⭐⭐⭐⭐ |
+| **Cast** | `cast.cu` | 类型转换 | ⭐⭐ |
+| **Concat MLA** | `concat_mla.cu` | Concat MLA 操作 | ⭐⭐⭐⭐ |
+| **Fused Add RMSNorm** | `fused_add_rms_norm_kernel.cu` | 融合的残差连接和归一化 | ⭐⭐⭐ |
+
+### 2. Attention 算子（注意力机制）
+
+| 算子 | 文件 | 功能 | 难度 |
+|------|------|------|------|
+| **Lightning Attention Decode** | `lightning_attention_decode_kernel.cu` | 解码阶段注意力 | ⭐⭐⭐⭐ |
+| **CUTLASS MLA** | `cutlass_mla_kernel.cu` | CUTLASS 优化的 MLA | ⭐⭐⭐⭐⭐ |
+| **Merge Attention States** | `merge_attn_states.cu` | 合并注意力状态 | ⭐⭐⭐⭐ |
+| **Cascade Attention** | `cascade.cu` | Cascade 注意力 | ⭐⭐⭐⭐ |
+| **Vertical Slash Index** | `vertical_slash_index.cu` | Vertical Slash 索引 | ⭐⭐⭐ |
+
+### 3. GEMM 算子（矩阵乘法）
+
+| 算子 | 文件 | 功能 | 难度 |
+|------|------|------|------|
+| **AWQ GEMM** | `awq_kernel.cu` | AWQ 量化矩阵乘法 | ⭐⭐⭐⭐ |
+| **FP8 GEMM** | `fp8_gemm_kernel.cu` | FP8 精度矩阵乘法 | ⭐⭐⭐⭐ |
+| **INT8 GEMM** | `int8_gemm_kernel.cu` | INT8 量化矩阵乘法 | ⭐⭐⭐⭐ |
+| **Per-Token Quant FP8** | `per_token_quant_fp8.cu` | Per-Token FP8 量化 | ⭐⭐⭐⭐ |
+| **Per-Token-Group Quant 8bit** | `per_token_group_quant_8bit.cu` | Per-Token-Group 8bit 量化 | ⭐⭐⭐⭐ |
+| **NVFP4 Quant** | `nvfp4_quant_entry.cu` | NVFP4 量化 | ⭐⭐⭐⭐⭐ |
+| **DeepSeek-V3 Router GEMM** | `dsv3_router_gemm_entry.cu` | DeepSeek-V3 Router GEMM | ⭐⭐⭐⭐ |
+| **QServe W4A8 GEMM** | `qserve_w4a8_per_chn_gemm.cu` | QServe W4A8 GEMM | ⭐⭐⭐⭐ |
+
+### 4. MoE 算子（混合专家）
+
+| 算子 | 文件 | 功能 | 难度 |
+|------|------|------|------|
+| **MoE TopK Softmax** | `moe_topk_softmax_kernels.cu` | MoE TopK Softmax | ⭐⭐⭐⭐ |
+| **MoE TopK Sigmoid** | `moe_topk_sigmoid_kernels.cu` | MoE TopK Sigmoid | ⭐⭐⭐⭐ |
+| **MoE Sum** | `moe_sum.cu` | MoE 求和 | ⭐⭐⭐ |
+| **MoE Sum Reduce** | `moe_sum_reduce.cu` | MoE 求和归约 | ⭐⭐⭐ |
+| **MoE Fused Gate** | `moe_fused_gate.cu` | MoE 融合门控 | ⭐⭐⭐ |
+| **FP8 Blockwise MoE** | `fp8_blockwise_moe_kernel.cu` | FP8 Blockwise MoE | ⭐⭐⭐⭐⭐ |
+
+### 5. 其他算子
+
+| 算子类型 | 说明 |
+|---------|------|
+| **Quantization** | 量化相关的工具函数 |
+| **Allreduce** | 通信原语（如果存在） |
+| **Grammar** | 语法约束相关（如果存在） |
+
+---
+
+## 🎯 为什么只详细讲解这 6 个算子？
+
+### 选取原则
+
+1. **从简单到复杂**：
+   - Copy（最简单）→ Activation（简单）→ RoPE（中等）→ Attention（复杂）→ TopK（最复杂）
+
+2. **覆盖核心概念**：
+   - ✅ CUDA Kernel 基础（Copy）
+   - ✅ 设备端函数（Activation）
+   - ✅ 复杂数学运算（RoPE）
+   - ✅ 共享内存和线程协作（Attention）
+   - ✅ 复杂算法（TopK）
+   - ✅ 融合操作（Fused Add RMSNorm）
+
+3. **实用性强**：
+   - 这 6 个算子是 LLM 推理中**最常用**的算子
+   - 理解它们就能理解大多数 LLM 推理的核心操作
+
+4. **学习价值高**：
+   - 每个算子都展示了不同的 CUDA 编程技巧
+   - 掌握它们后，可以举一反三理解其他算子
+
+### 如何学习其他算子？
+
+**建议学习路径**：
+
+1. **先掌握这 6 个核心算子**（本文档详细讲解）
+   - 理解基本概念和技巧
+   - 掌握 CUDA 编程的核心模式
+
+2. **然后根据需求学习特定算子**：
+   - **GEMM 相关**：先理解矩阵乘法的基本原理，再看各种量化版本
+   - **MoE 相关**：先理解 TopK Softmax，再看 MoE 的实现
+   - **Attention 相关**：先理解 Lightning Attention，再看其他变体
+
+3. **对比学习**：
+   - 对比不同实现之间的差异
+   - 理解各自的优化思路
+
+---
+
+**注意**：SGLang 的算子还在持续更新和优化中，本文档覆盖的是**最核心、最稳定的算子**。对于其他算子，可以参考源码中的注释和实现。
 
 ---
 

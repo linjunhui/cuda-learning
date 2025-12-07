@@ -59,6 +59,46 @@
   - 内存访问优化
 - **源码**：`elementwise/fused_add_rms_norm_kernel.cu`
 
+#### 7. [MoE Sum 算子](./07_MoE_Sum算子.md) ⭐ **新增**
+- **功能**：混合专家模型的输出聚合
+- **难度**：⭐⭐⭐
+- **学习点**：
+  - 逐元素求和
+  - 循环展开优化
+  - 只读内存优化（SGLANG_LDG）
+  - 模板特化
+- **源码**：`moe/moe_sum.cu`
+
+#### 8. [Merge Attention States 算子](./08_Merge_Attention_States算子.md) ⭐ **新增**
+- **功能**：合并前缀和后缀注意力状态
+- **难度**：⭐⭐⭐⭐
+- **学习点**：
+  - Log-Sum-Exp 技巧（数值稳定性）
+  - 向量化优化（128 位打包）
+  - 类型转换（精度保证）
+  - 推测解码中的状态合并
+- **源码**：`attention/merge_attn_states.cu`
+
+#### 9. [Cast (FP8 Downcast) 算子](./09_Cast_FP8_Downcast算子.md) ⭐ **新增**
+- **功能**：将 KV Cache 从高精度转换为 FP8
+- **难度**：⭐⭐⭐
+- **学习点**：
+  - 量化技术
+  - Scale 缩放
+  - 饱和截断
+  - 索引重映射
+- **源码**：`elementwise/cast.cu`
+
+#### 10. [Concat MLA 算子](./10_Concat_MLA算子.md) ⭐ **新增**
+- **功能**：合并无 RoPE 和有 RoPE 的 K 向量
+- **难度**：⭐⭐⭐⭐
+- **学习点**：
+  - Warp 级并行
+  - 向量化优化（128 位打包）
+  - 预取优化（Prefetch）
+  - 非对齐内存访问
+- **源码**：`elementwise/concat_mla.cu`
+
 ---
 
 ### 高级算子（⭐⭐⭐⭐⭐）
@@ -83,24 +123,31 @@
 1. Copy 算子          (⭐⭐)  → 理解 CUDA kernel 基础
 2. Activation 算子    (⭐⭐)  → 学习设备端函数和类型转换
 3. Fused Add RMSNorm  (⭐⭐⭐) → 学习融合操作和归约
-4. RoPE 算子          (⭐⭐⭐) → 学习复杂数学运算
-5. Lightning Attention(⭐⭐⭐⭐) → 学习共享内存和线程协作
-6. TopK 算子          (⭐⭐⭐⭐⭐) → 学习复杂算法
+4. MoE Sum 算子       (⭐⭐⭐) → 学习逐元素求和和循环展开
+5. RoPE 算子          (⭐⭐⭐) → 学习复杂数学运算
+6. Cast (FP8) 算子    (⭐⭐⭐) → 学习量化技术
+7. Lightning Attention(⭐⭐⭐⭐) → 学习共享内存和线程协作
+8. Merge Attention    (⭐⭐⭐⭐) → 学习数值稳定性和向量化
+9. Concat MLA 算子    (⭐⭐⭐⭐) → 学习 Warp 级并行和预取
+10. TopK 算子         (⭐⭐⭐⭐⭐) → 学习复杂算法
 ```
 
 ### 路径 2：按功能分组
 
 **逐元素操作**：
-- Copy → Activation → Fused Add RMSNorm
+- Copy → Activation → Fused Add RMSNorm → MoE Sum → Cast (FP8)
 
 **位置编码**：
-- RoPE
+- RoPE → Concat MLA
 
 **注意力机制**：
-- Lightning Attention Decode
+- Lightning Attention Decode → Merge Attention States
 
 **采样和排序**：
 - TopK
+
+**MoE 相关**：
+- MoE Sum
 
 ---
 
@@ -111,8 +158,12 @@
 | Copy | ⭐⭐ | 低 | O(N) | 30 分钟 |
 | Activation | ⭐⭐ | 低 | O(N) | 1 小时 |
 | Fused Add RMSNorm | ⭐⭐⭐ | 中 | O(N) | 2 小时 |
+| MoE Sum | ⭐⭐⭐ | 中 | O(N×K) | 1.5 小时 |
 | RoPE | ⭐⭐⭐ | 中 | O(N) | 2-3 小时 |
+| Cast (FP8) | ⭐⭐⭐ | 中 | O(N) | 1.5 小时 |
 | Lightning Attention | ⭐⭐⭐⭐ | 高 | O(N²) | 3-4 小时 |
+| Merge Attention States | ⭐⭐⭐⭐ | 高 | O(N) | 2-3 小时 |
+| Concat MLA | ⭐⭐⭐⭐ | 高 | O(N) | 2-3 小时 |
 | TopK | ⭐⭐⭐⭐⭐ | 很高 | O(N log N) | 4-5 小时 |
 
 ---
@@ -223,6 +274,26 @@
 2. 补充示例
 3. 添加更多可视化
 4. 提供简化版本代码
+
+---
+
+---
+
+## 📊 文档统计
+
+**当前文档数量**：10 个算子文档
+
+**文档分类**：
+- **基础算子**：2 个（Copy、Activation）
+- **中级算子**：5 个（Fused Add RMSNorm、RoPE、MoE Sum、Cast FP8、Lightning Attention）
+- **高级算子**：3 个（Merge Attention States、Concat MLA、TopK）
+
+**涵盖内容**：
+- ✅ 公式与算法详解
+- ✅ 代码逐行解析
+- ✅ 性能优化技巧
+- ✅ 设计要点分析
+- ✅ 简化版本示例
 
 ---
 
