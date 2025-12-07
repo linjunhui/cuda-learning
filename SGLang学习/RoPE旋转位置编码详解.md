@@ -1200,3 +1200,9 @@ q_final = torch.cat([q_rope, q[:, rotary_dim:]], dim=-1)
 **文档版本**：1.0  
 **最后更新**：2024年
 
+
+
+
+
+
+

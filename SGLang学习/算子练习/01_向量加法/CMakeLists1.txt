@@ -1,0 +1,81 @@
+cmake_minimum_required(VERSION 3.18)
+
+# 项目名称
+project(VectorAdd LANGUAGES CXX CUDA)
+
+# 设置 C++ 标准
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# 设置 CUDA 标准
+set(CMAKE_CUDA_STANDARD 17)
+set(CMAKE_CUDA_STANDARD_REQUIRED ON)
+
+# 设置输出目录
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
+# 源文件
+# 分开编译：.cu 文件由 nvcc 编译，.cpp 文件由 g++ 编译，最后链接
+set(SOURCES
+    src/main.cpp        # C++ 源文件，由 g++ 编译（主机端代码）
+)
+
+# 头文件
+set(HEADERS
+    src/vector_add.cuh
+)
+
+# 创建可执行文件
+add_executable(vector_add ${SOURCES} ${HEADERS})
+
+# CUDA 编译选项
+# 启用分离编译：允许 .cu 和 .cpp 文件分开编译后链接
+set_property(TARGET vector_add PROPERTY CUDA_SEPARABLE_COMPILATION ON)
+
+# 设置文件语言属性，确保正确的编译器
+set_source_files_properties(src/vector_add.cu PROPERTIES LANGUAGE CUDA)
+set_source_files_properties(src/main.cpp PROPERTIES LANGUAGE CXX)
+
+# 设置 CUDA 架构（根据你的 GPU 调整）
+# 常见架构：
+# - sm_75: Turing (RTX 20xx, GTX 16xx)
+# - sm_80: Ampere (A100, RTX 30xx)
+# - sm_86: Ampere (RTX 30xx laptop)
+# - sm_89: Ada Lovelace (RTX 40xx)
+# - sm_90: Hopper (H100)
+set(CMAKE_CUDA_ARCHITECTURES "75;80;86" CACHE STRING "CUDA architectures")
+
+# 编译选项
+target_compile_options(vector_add PRIVATE
+    $<$<COMPILE_LANGUAGE:CUDA>:
+        -Xcompiler -Wall
+        -Xcompiler -Wextra
+        --ptxas-options=-v
+    >
+    $<$<COMPILE_LANGUAGE:CXX>:
+        -Wall
+        -Wextra
+    >
+)
+
+# 优化选项（Debug 模式关闭优化，Release 模式开启优化）
+if(CMAKE_BUILD_TYPE STREQUAL "Release")
+    target_compile_options(vector_add PRIVATE
+        $<$<COMPILE_LANGUAGE:CUDA>:-O3>
+        $<$<COMPILE_LANGUAGE:CXX>:-O3>
+    )
+else()
+    # Debug 模式：添加调试信息
+    target_compile_options(vector_add PRIVATE
+        $<$<COMPILE_LANGUAGE:CUDA>:-g -G>
+        $<$<COMPILE_LANGUAGE:CXX>:-g>
+    )
+endif()
+
+# 打印配置信息
+message(STATUS "Project: ${PROJECT_NAME}")
+message(STATUS "C++ Standard: ${CMAKE_CXX_STANDARD}")
+message(STATUS "CUDA Standard: ${CMAKE_CUDA_STANDARD}")
+message(STATUS "CUDA Architectures: ${CMAKE_CUDA_ARCHITECTURES}")
+message(STATUS "Build Type: ${CMAKE_BUILD_TYPE}")
+
