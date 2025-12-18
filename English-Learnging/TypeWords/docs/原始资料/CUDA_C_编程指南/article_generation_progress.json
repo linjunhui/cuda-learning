@@ -1,0 +1,47 @@
+{
+  "status": "partially_completed",
+  "pdf_conversion": {
+    "status": "completed",
+    "total_pages": 598,
+    "markdown_file": "CUDA_C_Programming_Guide.md",
+    "total_lines": 26148,
+    "completed_date": "2025-12-17"
+  },
+  "article_generation": {
+    "status": "in_progress",
+    "articles_created": 120,
+    "target_min_articles": 10,
+    "current_batch": 6,
+    "last_processed_section": 120,
+    "total_sections": 574,
+    "remaining_sections": 454,
+    "articles_json_file": "CUDA_C_Programming_Guide_articles.json",
+    "output_location": "public/dicts/en/article/CUDA_C_Programming_Guide.json"
+  },
+  "json_files": {
+    "article_list_file": "public/list/article.json",
+    "articles_json_file": "public/dicts/en/article/CUDA_C_Programming_Guide.json",
+    "status": "created_and_updated",
+    "book_id": "article_cuda_programming_guide",
+    "book_name": "CUDA C++ 编程指南",
+    "book_length": 120
+  },
+  "translation": {
+    "status": "pending",
+    "note": "当前文章中的翻译字段使用占位符 '[待翻译]'，需要后续处理翻译",
+    "translation_method": "待定（可集成翻译API或手动翻译）"
+  },
+  "next_steps": [
+    "继续处理剩余454个章节，生成更多文章",
+    "处理翻译问题（集成翻译API或手动翻译）",
+    "验证JSON格式和文章质量",
+    "测试文章在系统中的显示"
+  ],
+  "notes": [
+    "PDF已成功转换为Markdown（598页，26148行）",
+    "已生成120篇文章，超过最低要求（10篇）",
+    "文章已复制到 public/dicts/en/article/ 目录",
+    "article.json 已更新，添加了新书籍信息",
+    "翻译字段目前使用占位符，需要后续处理"
+  ]
+}

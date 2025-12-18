@@ -1,9 +1,12 @@
+#include <__clang_cuda_runtime_wrapper.h>
 #include <cuda_runtime.h>
 #include <torch/extension.h>
 #include <torch/types.h>
 
 
-
+/*
+全局线程规约，原子操作
+*/
 __global__ void reduce_naive_add_kernel(const float *input, double *sum, int N) {
     int tid = blockDim.x * blockIdx.x + threadIdx.x;
     if(tid < N) {
@@ -82,6 +85,11 @@ __global__ void reduce_block_add_kernel(float *input, double *sum, int N) {
         sum[blockIdx.x] = input[global_tid_base];
     }
 }
+
+/*
+2. Warp 内的规约,  在warp内进行求和，再回到CPU求总和
+*/
+
 
 double reduce_block_add(torch::Tensor input) {
     TORCH_CHECK(input.dtype() == torch::kFloat32, "input must be float32");

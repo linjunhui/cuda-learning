@@ -1,0 +1,45 @@
+{
+  "status": "in_progress",
+  "method": "chapter_based_organization",
+  "total_chapters": 27,
+  "translated_chapters": 3,
+  "remaining_chapters": 24,
+  "progress_percentage": 11.11,
+  "chapters": [
+    {
+      "index": 0,
+      "id": "z3uMeq",
+      "title": "Chapter 1.Overview",
+      "title_translate": "第1章 概述",
+      "status": "completed",
+      "date": "2025-12-17"
+    },
+    {
+      "index": 1,
+      "id": "dSnGYv",
+      "title": "Chapter 2.What Is the CUDA C Programming Guide?",
+      "title_translate": "第2章 什么是 CUDA C 编程指南？",
+      "status": "completed",
+      "date": "2025-12-17"
+    },
+    {
+      "index": 2,
+      "id": "XukOiQ",
+      "title": "Chapter 3.Introduction",
+      "title_translate": "第3章 简介",
+      "status": "completed",
+      "date": "2025-12-17"
+    }
+  ],
+  "last_updated": "2025-12-17",
+  "notes": [
+    "已按照原始章节结构重新组织文章（共27章）",
+    "已完成前3章的翻译",
+    "后续章节需要继续翻译"
+  ],
+  "summary": {
+    "organization": "按章节组织（Chapter 1-27）",
+    "file_location": "public/dicts/en/article/CUDA_C_Programming_Guide.json",
+    "article_list_updated": true
+  }
+}

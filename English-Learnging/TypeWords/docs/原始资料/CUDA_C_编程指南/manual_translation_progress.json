@@ -1,0 +1,63 @@
+{
+  "status": "in_progress",
+  "method": "manual_translation",
+  "current_article_index": 18,
+  "current_article_id": "1gtuLk",
+  "current_article_title": "3.3. A Scalable Programming Model",
+  "articles_translated": 5,
+  "articles_updated": [
+    {
+      "index": 14,
+      "id": "DsudcH",
+      "title": "Chapter 1.Overview",
+      "title_translate": "第1章 概述",
+      "status": "completed",
+      "date": "2025-12-17"
+    },
+    {
+      "index": 15,
+      "id": "piEwvM",
+      "title": "Chapter 2.What Is the CUDA C Programming Guide?",
+      "title_translate": "第2章 什么是 CUDA C 编程指南？",
+      "status": "completed",
+      "date": "2025-12-17"
+    },
+    {
+      "index": 16,
+      "id": "66g7xo",
+      "title": "Chapter 3.Introduction",
+      "title_translate": "第3章 简介",
+      "status": "completed",
+      "date": "2025-12-17"
+    },
+    {
+      "index": 17,
+      "id": "bDARIo",
+      "title": "3.2. CUDA®: A General-Purpose Parallel Computing Platform and Programming Model",
+      "title_translate": "3.2. CUDA®：通用并行计算平台和编程模型",
+      "status": "completed",
+      "date": "2025-12-17"
+    },
+    {
+      "index": 18,
+      "id": "1gtuLk",
+      "title": "3.3. A Scalable Programming Model",
+      "title_translate": "3.3. 可扩展的编程模型",
+      "status": "completed",
+      "date": "2025-12-17"
+    }
+  ],
+  "last_updated": "2025-12-17",
+  "notes": [
+    "开始手动翻译文章",
+    "已完成5篇文章的翻译（索引14-18）",
+    "每次处理完成后更新此文件记录进度",
+    "下一步：继续处理第20篇文章（索引19）"
+  ],
+  "summary": {
+    "total_articles": 120,
+    "translated": 5,
+    "remaining": 115,
+    "progress_percentage": 4.17
+  }
+}
