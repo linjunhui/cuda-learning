@@ -1,0 +1,100 @@
+[
+  {
+    "id": "article_nce1",
+    "name": "新概念英语1",
+    "description": "第一册《英语初阶》讲练基本语音、语调、语法、词法、句法及句型结构，是练好英语基本功的关键。",
+    "category": "文章学习",
+    "tags": [
+      "新概念英语"
+    ],
+    "url": "NCE_1.json",
+    "length": 72,
+    "translateLanguage": "common",
+    "language": "en",
+    "cover": "/imgs/covers/nce-1.png"
+  },
+  {
+    "id": "article_nce2",
+    "name": "新概念英语2",
+    "description": "第二册《实践与进步》由浅入深，通过96篇幽默短文的学习，学习者将能在听、说、读、写四个维度全面实践英语；培养英文语感、纠正发音和培养自然语调；掌握归纳总结、造句及书写简单私人信件的能力。",
+    "category": "文章学习",
+    "tags": [
+      "新概念英语"
+    ],
+    "url": "NCE_2.json",
+    "length": 96,
+    "translateLanguage": "common",
+    "language": "en",
+    "update": true,
+    "cover": "/imgs/covers/nce-2.png"
+  },
+  {
+    "id": "article_nce3",
+    "name": "新概念英语3",
+    "description": "从第三册《培养技能》开始，文章更加注重分析句子之间内在的逻辑关系，并进一步扩充讲解词汇、语法及句型的实战运用。通过这一册的学习，学员们听、说、读、写的能力有一个新的飞跃，能够熟练地表达和使用英语。",
+    "category": "文章学习",
+    "tags": [
+      "新概念英语"
+    ],
+    "url": "NCE_3.json",
+    "length": 60,
+    "translateLanguage": "common",
+    "language": "en",
+    "update": true,
+    "cover": "/imgs/covers/nce-3.png"
+  },
+  {
+    "id": "article_cuda_basics",
+    "name": "CUDA编程基础",
+    "description": "通过阅读CUDA编程相关的英文技术文档，学习GPU并行计算的基础概念和编程方法，在掌握编程知识的同时提升英语水平。",
+    "category": "文章学习",
+    "tags": [
+      "CUDA",
+      "编程",
+      "GPU",
+      "并行计算"
+    ],
+    "url": "CUDA_BASICS.json",
+    "length": 10,
+    "translateLanguage": "common",
+    "language": "en",
+    "cover": ""
+  },
+  {
+    "id": "article_cpp_basics",
+    "name": "C++编程基础",
+    "description": "通过阅读C++编程相关的英文技术文档，学习现代C++的核心语法和编程特性，在掌握编程知识的同时提升英语水平。",
+    "category": "文章学习",
+    "tags": [
+      "C++",
+      "编程",
+      "现代C++",
+      "面向对象"
+    ],
+    "url": "CPP_BASICS.json",
+    "length": 10,
+    "translateLanguage": "common",
+    "language": "en",
+    "cover": ""
+  },
+  {
+    "id": "article_cuda_programming_guide",
+    "name": "CUDA_C++_编程指南",
+    "description": "NVIDIA官方CUDA C++编程指南，涵盖CUDA架构、编程模型、语言扩展和性能优化等核心内容。通过阅读官方英文技术文档，深入学习GPU并行计算和CUDA编程，在掌握CUDA编程知识的同时提升英语水平。",
+    "category": "文章学习",
+    "tags": [
+      "CUDA",
+      "编程",
+      "GPU",
+      "并行计算",
+      "NVIDIA",
+      "官方文档"
+    ],
+    "url": "CUDA_C_Programming_Guide.json",
+    "length": 10,
+    "translateLanguage": "common",
+    "language": "en",
+    "cover": "",
+    "update": true
+  }
+]
