@@ -82,27 +82,59 @@ async function init() {
     if (!runtimeStore.editDict.id) {
       await router.push("/articles")
     } else {
-      if (!runtimeStore.editDict?.articles?.length
-          && !runtimeStore.editDict?.custom
+      loading = true
+      
+      // 先加载本地文件数据作为基准（用于对比）
+      let localArticles: any[] = []
+      if (!runtimeStore.editDict?.custom
           && ![DictId.articleCollect].includes(runtimeStore.editDict.en_name || runtimeStore.editDict.id)
           && !runtimeStore.editDict?.is_default
       ) {
-        loading = true
-        let r = await _getDictDataByUrl(runtimeStore.editDict, DictType.article)
-        runtimeStore.editDict = r
+        try {
+          let localDict = await _getDictDataByUrl(runtimeStore.editDict, DictType.article)
+          localArticles = localDict.articles || []
+        } catch (error) {
+          console.error('Failed to load local file:', error)
+        }
       }
-
+      
+      // 1. 优先从后台API加载数据（添加时间戳破坏缓存）
       if (base.article.bookList.find(book => book.id === runtimeStore.editDict.id)) {
         if (AppEnv.CAN_REQUEST) {
-          let res = await detail({id: runtimeStore.editDict.id})
-          if (res.success) {
-            runtimeStore.editDict.statistics = res.data.statistics
-            if (res.data.articles.length) {
-              runtimeStore.editDict.articles = res.data.articles
+          try {
+            // detail 函数内部已添加缓存破坏机制
+            let res = await detail({id: runtimeStore.editDict.id})
+            if (res.success) {
+              runtimeStore.editDict.statistics = res.data.statistics
+              // 优先使用API返回的文章数据
+              if (res.data.articles && res.data.articles.length > 0) {
+                runtimeStore.editDict.articles = res.data.articles
+              }
             }
+          } catch (error) {
+            console.error('Failed to load from API:', error)
           }
         }
       }
+      
+      // 2. 如果API没有返回文章数据，或API返回的数据少于本地文件，使用本地文件数据
+      // 这样可以确保显示最新的文章（用户可能刚在后端导入了新文章）
+      if (!runtimeStore.editDict?.articles?.length
+          || (localArticles.length > 0 && localArticles.length > runtimeStore.editDict.articles.length)
+      ) {
+        if (!runtimeStore.editDict?.custom
+            && ![DictId.articleCollect].includes(runtimeStore.editDict.en_name || runtimeStore.editDict.id)
+            && !runtimeStore.editDict?.is_default
+        ) {
+          let r = await _getDictDataByUrl(runtimeStore.editDict, DictType.article)
+          runtimeStore.editDict.articles = r.articles
+          // 保留API返回的统计信息
+          if (runtimeStore.editDict.statistics) {
+            runtimeStore.editDict.statistics = runtimeStore.editDict.statistics
+          }
+        }
+      }
+      
       if (runtimeStore.editDict.articles.length) {
         selectArticle = runtimeStore.editDict.articles[0]
       }

@@ -361,7 +361,7 @@ function forgetData() {
 }
 
 function goHome(){
-
+  router.nav('/articles')
 }
 </script>
 

@@ -24,7 +24,7 @@ export const routes: RouteRecordRaw[] = [
     path: '/',
     component: Layout,
     children: [
-      {path: '/', redirect: '/words'},
+      {path: '/', redirect: '/articles'},
       {path: 'words', component: WordsPage},
       {path: 'word', redirect: '/words'},
       {path: 'practice-words/:id', component: PracticeWords},
@@ -52,7 +52,7 @@ export const routes: RouteRecordRaw[] = [
   {path: '/auth/password-login', component: PasswordLogin},
   {path: '/batch-edit-article', component: () => import("@/pages/article/BatchEditArticlePage.vue")},
   {path: '/test', component: () => import("@/pages/test/test.vue")},
-  {path: '/:pathMatch(.*)*', redirect: '/words'},
+  {path: '/:pathMatch(.*)*', redirect: '/articles'},
 ]
 
 const router = VueRouter.createRouter({

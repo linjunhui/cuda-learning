@@ -23,8 +23,8 @@ function handleLogin() {
     const success = authStore.login(password)
     if (success) {
       Toast.success('登录成功')
-      // 跳转到之前想访问的页面，或默认首页
-      const redirect = router.currentRoute.value.query.redirect as string || '/words'
+      // 跳转到之前想访问的页面，或默认首页（articles）
+      const redirect = router.currentRoute.value.query.redirect as string || '/articles'
       router.push(redirect)
     } else {
       Toast.error('密码错误')

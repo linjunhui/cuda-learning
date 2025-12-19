@@ -232,5 +232,18 @@
     "lrcPosition": [],
     "questions": [],
     "nameList": []
+  },
+  {
+    "id": "op019",
+    "title": "Warp Operations: Efficient Reduction with Shuffle Primitives",
+    "titleTranslate": "Warp操作：使用Shuffle原语的高效归约",
+    "text": "A warp is a group of 32 threads that execute instructions in lockstep on GPU. \nAll threads in a warp share the same program counter and execute the same instruction simultaneously. \nThis SIMT (Single Instruction Multiple Thread) model enables efficient parallel execution. \n\nWarp-level primitives allow threads within a warp to exchange data directly through registers. \nThe __shfl_xor_sync primitive performs a butterfly reduction pattern efficiently. \nIt enables threads to read values from other threads' registers without using shared memory. \n\nIn the warp reduction for maximum value, each thread starts with its local value. \nThe reduction proceeds in log₂(32) = 5 steps, halving the distance each step. \nIn step i, thread j exchanges with thread j XOR (2^i), comparing and keeping the maximum. \n\nFor example, with mask = 16 (2^4), thread 0 exchanges with thread 16, thread 1 with thread 17, etc. \nAfter 5 steps, all threads have the maximum value in their registers. \nThis avoids shared memory access, reducing latency and eliminating bank conflicts. \n\nThe two-level reduction strategy combines warp-level and block-level reduction. \nFirst, each warp reduces 32 elements to one value using __shfl_xor_sync. \nThe warp's lane 0 thread writes the result to shared memory: s_max[warp_id] = thread_max. \n\nAfter __syncthreads(), the first warp (thread 0) reduces all warp results. \nIt reads from shared memory and finds the maximum across all warps in the block. \nThis final result is written to global memory as the block's output. \n\nWarp operations provide implicit synchronization within a warp. \nAll threads in a warp must complete the __shfl_xor_sync instruction before proceeding. \nThis eliminates the need for explicit __syncthreads() within warp-level operations. \n\nThe key advantage of warp primitives is register-to-register transfer speed. \nShared memory access requires multiple cycles, while register access is single-cycle. \nFor warp-level operations, this provides significant performance improvement. \n\nHowever, warp primitives only work within a single warp (32 threads). \nFor block-level operations, we combine warp primitives with shared memory. \nThis hybrid approach leverages the strengths of both communication mechanisms.",
+    "textTranslate": "Warp 是在 GPU 上以锁步方式执行指令的 32 个线程组。 \nWarp 中的所有线程共享相同的程序计数器并同时执行相同的指令。 \n这种 SIMT（单指令多线程）模型实现了高效的并行执行。 \n\nWarp 级原语允许 warp 内的线程通过寄存器直接交换数据。 \n__shfl_xor_sync 原语高效地执行蝴蝶归约模式。 \n它使线程能够从其他线程的寄存器读取值，而无需使用共享内存。 \n\n在求最大值的 warp 归约中，每个线程从其局部值开始。 \n归约在 log₂(32) = 5 步中进行，每步将距离减半。 \n在第 i 步中，线程 j 与线程 j XOR (2^i) 交换，比较并保留最大值。 \n\n例如，当 mask = 16 (2^4) 时，线程 0 与线程 16 交换，线程 1 与线程 17 交换，等等。 \n经过 5 步后，所有线程在其寄存器中都有最大值。 \n这避免了共享内存访问，减少了延迟并消除了 bank 冲突。 \n\n两级归约策略结合了 warp 级和 block 级归约。 \n首先，每个 warp 使用 __shfl_xor_sync 将 32 个元素归约为一个值。 \nWarp 的 lane 0 线程将结果写入共享内存：s_max[warp_id] = thread_max。 \n\n在 __syncthreads() 之后，第一个 warp（线程 0）归约所有 warp 结果。 \n它从共享内存读取并找到块内所有 warp 的最大值。 \n这个最终结果被写入全局内存作为块的输出。 \n\nWarp 操作在 warp 内提供隐式同步。 \nWarp 中的所有线程必须在继续之前完成 __shfl_xor_sync 指令。 \n这消除了在 warp 级操作中显式 __syncthreads() 的需要。 \n\nWarp 原语的关键优势是寄存器到寄存器的传输速度。 \n共享内存访问需要多个周期，而寄存器访问是单周期的。 \n对于 warp 级操作，这提供了显著的性能改进。 \n\n但是，warp 原语只在单个 warp（32 个线程）内工作。 \n对于 block 级操作，我们将 warp 原语与共享内存结合使用。 \n这种混合方法利用了两种通信机制的优势。",
+    "newWords": [],
+    "audioSrc": "",
+    "audioFileId": "",
+    "lrcPosition": [],
+    "questions": [],
+    "nameList": []
   }
 ]

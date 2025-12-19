@@ -26,6 +26,7 @@ fi
 
 # 执行 npm run serve
 echo "开始执行 npm run serve..."
+#rm -rf dist
 npm run build
 nohup npm run serve > serve.log 2>&1 &
 

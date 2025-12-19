@@ -36,7 +36,7 @@ import InputNumber from "@/components/base/InputNumber.vue";
 import PopConfirm from "@/components/PopConfirm.vue";
 import Textarea from "@/components/base/Textarea.vue";
 import SettingItem from "@/pages/setting/SettingItem.vue";
-import { get, set } from "idb-keyval";
+import { get, set, del, keys as getIDBKeys } from "idb-keyval";
 import { useRuntimeStore } from "@/stores/runtime.ts";
 import { useUserStore } from "@/stores/user.ts";
 import { useAuthStore } from "@/stores/auth.ts";
@@ -45,6 +45,7 @@ import MigrateDialog from "@/components/MigrateDialog.vue";
 import Log from "@/pages/setting/Log.vue";
 import About from "@/components/About.vue";
 import { useRouter } from "vue-router";
+import { MessageBox } from "@/utils/MessageBox.tsx";
 
 const emit = defineEmits<{
   toggleDisabledDialogEscKey: [val: boolean]
@@ -314,6 +315,88 @@ function handleLogout() {
   Toast.success('已退出登录')
   router.push('/auth/password-login')
 }
+
+// 清除浏览器缓存
+async function clearBrowserCache() {
+  MessageBox.confirm(
+    '确认清除所有浏览器缓存？这将清除 IndexedDB、localStorage、Service Worker 缓存和 HTTP 缓存，并刷新页面。',
+    '清除缓存',
+    async () => {
+      try {
+        // 1. 清除 Service Worker 缓存
+        if ('serviceWorker' in navigator && 'caches' in window) {
+          try {
+            // 清除所有 Cache Storage
+            const cacheNames = await caches.keys()
+            await Promise.all(cacheNames.map(name => caches.delete(name)))
+            
+            // 注销所有 Service Worker
+            const registrations = await navigator.serviceWorker.getRegistrations()
+            await Promise.all(registrations.map(reg => reg.unregister()))
+          } catch (error) {
+            console.warn('清除 Service Worker 缓存失败:', error)
+          }
+        }
+        
+        // 2. 清除 IndexedDB - 删除整个数据库
+        try {
+          // 方法1: 删除所有键
+          const idbKeys = await getIDBKeys()
+          for (const key of idbKeys) {
+            await del(key)
+          }
+          
+          // 方法2: 删除整个数据库（更彻底）
+          if ('indexedDB' in window) {
+            const databases = await indexedDB.databases()
+            for (const db of databases) {
+              if (db.name) {
+                const deleteReq = indexedDB.deleteDatabase(db.name)
+                await new Promise((resolve, reject) => {
+                  deleteReq.onsuccess = () => resolve(true)
+                  deleteReq.onerror = () => reject(deleteReq.error)
+                  deleteReq.onblocked = () => resolve(true) // 即使被阻塞也继续
+                })
+              }
+            }
+          }
+        } catch (error) {
+          console.warn('清除 IndexedDB 失败:', error)
+        }
+        
+        // 3. 清除 localStorage（保留 token 和认证信息）
+        const keysToKeep = ['token', 'auth']
+        const allKeys = Object.keys(localStorage)
+        for (const key of allKeys) {
+          if (!keysToKeep.includes(key)) {
+            localStorage.removeItem(key)
+          }
+        }
+        
+        // 4. 清除 sessionStorage
+        sessionStorage.clear()
+        
+        // 5. 清除所有 Cookie（可选，但可能影响登录状态）
+        // document.cookie.split(";").forEach(c => {
+        //   document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+        // });
+        
+        Toast.success('缓存已清除，页面即将刷新...')
+        
+        // 6. 强制刷新页面（使用时间戳参数清除 HTTP 缓存）
+        setTimeout(() => {
+          // 使用 location.href 而不是 reload，添加时间戳参数强制清除缓存
+          const url = new URL(window.location.href)
+          url.searchParams.set('_clear_cache', Date.now().toString())
+          window.location.href = url.toString()
+        }, 1000)
+      } catch (error) {
+        console.error('清除缓存失败:', error)
+        Toast.error('清除缓存失败，请手动刷新页面')
+      }
+    }
+  )
+}
 </script>
 
 <template>
@@ -414,6 +497,7 @@ function handleLogout() {
 
             <div class="line mt-15 mb-3"></div>
             <div class="flex gap-space">
+              <BaseButton type="orange" size="large" @click="clearBrowserCache">清除缓存</BaseButton>
               <BaseButton type="info" size="large" @click="handleLogout">退出登录</BaseButton>
             </div>
           </div>
