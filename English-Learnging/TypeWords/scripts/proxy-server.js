@@ -42,23 +42,65 @@ function getMimeType(filePath) {
 
 // 代理请求到 iciba.com
 function proxyIciba(req, res) {
-  const targetPath = req.url.replace('/iciba', '')
-  const targetUrl = `https://www.iciba.com${targetPath}${req.url.includes('?') ? '' : (req.url.split('?')[1] ? '?' + req.url.split('?')[1] : '')}`
+  // 解析 URL，正确提取路径和查询参数
+  const parsedUrl = url.parse(req.url, true)
+  // 移除 /iciba 前缀，获取目标路径
+  const targetPath = parsedUrl.pathname.replace(/^\/iciba/, '')
+  // 构建查询字符串
+  const queryString = parsedUrl.search || ''
+  
+  // 根据路径判断使用哪个域名
+  // 新 API 使用 dict.iciba.com，旧 API 使用 www.iciba.com
+  let baseUrl = 'https://www.iciba.com'
+  if (targetPath.startsWith('/dictionary/')) {
+    baseUrl = 'https://dict.iciba.com'
+  }
+  
+  // 构建完整的目标 URL
+  const targetUrl = `${baseUrl}${targetPath}${queryString}`
+  
+  console.log(`[${new Date().toISOString()}] 代理请求: ${req.method} ${req.url}`)
+  console.log(`  -> ${targetUrl}`)
   
   https.get(targetUrl, {
     headers: {
       'Accept': '*/*',
+      'Accept-Language': 'zh-CN,zh;q=0.9',
+      'Cache-Control': 'no-cache',
+      'Connection': 'keep-alive',
+      'Pragma': 'no-cache',
       'Referer': 'https://www.iciba.com/',
-      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
-      'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8'
+      'Sec-Fetch-Dest': 'empty',
+      'Sec-Fetch-Mode': 'cors',
+      'Sec-Fetch-Site': 'cross-site',
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.6261.95 Safari/537.36',
+      'sec-ch-ua': '"Chromium";v="122", "Not(A:Brand";v="24", "Google Chrome";v="122"',
+      'sec-ch-ua-mobile': '?0',
+      'sec-ch-ua-platform': '"Windows"',
     }
   }, (proxyRes) => {
-    res.writeHead(proxyRes.statusCode, proxyRes.headers)
+    console.log(`  <- 响应状态: ${proxyRes.statusCode}`)
+    
+    // 复制响应头
+    const responseHeaders = {}
+    Object.keys(proxyRes.headers).forEach(key => {
+      responseHeaders[key] = proxyRes.headers[key]
+    })
+    
+    // 设置 CORS 头（覆盖原有的）
+    responseHeaders['Access-Control-Allow-Origin'] = '*'
+    responseHeaders['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
+    responseHeaders['Access-Control-Allow-Headers'] = 'Content-Type'
+    
+    res.writeHead(proxyRes.statusCode, responseHeaders)
     proxyRes.pipe(res)
   }).on('error', (err) => {
-    console.error('代理错误:', err)
-    res.writeHead(500)
-    res.end('代理请求失败')
+    console.error(`  <- 代理错误: ${err.message}`)
+    res.writeHead(500, { 
+      'Content-Type': 'text/plain',
+      'Access-Control-Allow-Origin': '*'
+    })
+    res.end('代理请求失败: ' + err.message)
   })
 }
 
@@ -133,8 +175,12 @@ const server = http.createServer((req, res) => {
     return
   }
   
-  // 代理翻译接口
-  if (req.url.startsWith('/iciba')) {
+  // 解析 URL 路径（不包含查询参数）
+  const parsedUrl = url.parse(req.url || '/', true)
+  const pathname = parsedUrl.pathname || '/'
+  
+  // 代理翻译接口（检查路径是否以 /iciba 开头）
+  if (pathname.startsWith('/iciba')) {
     proxyIciba(req, res)
     return
   }
@@ -146,5 +192,5 @@ const server = http.createServer((req, res) => {
 server.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 服务器运行在 http://0.0.0.0:${PORT}`)
   console.log(`📦 静态文件目录: ${DIST_DIR}`)
-  console.log(`🔄 代理接口: /iciba -> https://www.iciba.com`)
+  console.log(`🔄 代理接口: /iciba -> https://dict.iciba.com 或 https://www.iciba.com`)
 })

@@ -96,5 +96,62 @@
     "language": "en",
     "cover": "",
     "update": true
+  },
+  {
+    "id": "article_cuda_operators",
+    "name": "CUDA算子实现总结",
+    "description": "总结当前项目中实现的CUDA算子，包括GEMM（通用矩阵乘法）、Softmax、Reduction、ReLU、Convolution等核心算子的实现原理和优化策略。通过阅读英文技术文档，深入学习GPU并行计算和CUDA算子优化，在掌握CUDA编程知识的同时提升英语水平。",
+    "category": "文章学习",
+    "tags": [
+      "CUDA",
+      "编程",
+      "GPU",
+      "并行计算",
+      "算子",
+      "GEMM",
+      "Softmax"
+    ],
+    "url": "CUDA_OPERATORS.json",
+    "length": 18,
+    "translateLanguage": "common",
+    "language": "en",
+    "cover": ""
+  },
+  {
+    "id": "article_rope",
+    "name": "RoPE旋转位置编码详解",
+    "description": "深入讲解RoPE（Rotary Position Embedding）旋转位置编码的数学原理、实现细节和优化技巧。涵盖复数旋转、相对位置关系证明、CUDA实现、序列外推等核心技术。通过阅读英文技术文档，深入学习现代LLM位置编码机制，在掌握深度学习知识的同时提升英语水平。",
+    "category": "文章学习",
+    "tags": [
+      "RoPE",
+      "位置编码",
+      "Transformer",
+      "深度学习",
+      "LLM",
+      "SGLang"
+    ],
+    "url": "ROPE_ROTARY_POSITION_EMBEDDING.json",
+    "length": 18,
+    "translateLanguage": "common",
+    "language": "en",
+    "cover": ""
+  },
+  {
+    "id": "article_feature_repository",
+    "name": "反构特性库说明文档",
+    "description": "详细介绍特性库的核心概念，包括特性（Feature）、特性库（Feature Repository）、反构（Reverse Construction）等基础概念。涵盖特性的组成要素、特性状态管理、特性设计文档规范等内容。通过阅读英文技术文档，学习软件工程中的特性管理实践，在掌握项目管理知识的同时提升英语水平。",
+    "category": "文章学习",
+    "tags": [
+      "软件工程",
+      "特性管理",
+      "项目管理",
+      "文档管理",
+      "逆向工程"
+    ],
+    "url": "FEATURE_REPOSITORY_GUIDE.json",
+    "length": 10,
+    "translateLanguage": "common",
+    "language": "en",
+    "cover": ""
   }
 ]

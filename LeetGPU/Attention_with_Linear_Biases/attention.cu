@@ -5,6 +5,7 @@
 #include <cstdio>
 #include <vector>
 #include <cmath>
+#include <cfloat>
 
 /*
 朴素的方法，没法一次性在GPU完成

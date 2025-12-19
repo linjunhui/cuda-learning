@@ -1,0 +1,105 @@
+{
+  "name": "typewords-extension",
+  "displayName": "TypeWords",
+  "description": "TypeWords 英语学习工具 VSCode 插件客户端",
+  "version": "0.0.1",
+  "publisher": "typewords",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "typewords.open",
+        "title": "打开 TypeWords",
+        "category": "TypeWords"
+      },
+      {
+        "command": "typewords.practiceWord",
+        "title": "练习单词",
+        "category": "TypeWords"
+      },
+      {
+        "command": "typewords.practiceArticle",
+        "title": "练习文章",
+        "category": "TypeWords"
+      },
+      {
+        "command": "typewords.translate",
+        "title": "翻译选中文本",
+        "category": "TypeWords"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "typewords.open",
+        "key": "ctrl+shift+t",
+        "mac": "cmd+shift+t"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "typewords.translate",
+          "when": "editorHasSelection",
+          "group": "navigation"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "typewords.open",
+          "when": "true"
+        },
+        {
+          "command": "typewords.practiceWord",
+          "when": "true"
+        },
+        {
+          "command": "typewords.practiceArticle",
+          "when": "true"
+        },
+        {
+          "command": "typewords.translate",
+          "when": "true"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "TypeWords",
+      "properties": {
+        "typewords.serverUrl": {
+          "type": "string",
+          "default": "http://47.108.93.168:48372",
+          "description": "TypeWords 服务器地址"
+        },
+        "typewords.autoOpen": {
+          "type": "boolean",
+          "default": false,
+          "description": "启动时自动打开 TypeWords"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.74.0",
+    "@vscode/vsce": "^2.22.0",
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "axios": "^1.6.0"
+  }
+}
