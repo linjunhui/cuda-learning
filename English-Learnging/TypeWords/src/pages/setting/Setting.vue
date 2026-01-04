@@ -306,7 +306,7 @@ let showTransfer = $ref(false)
 function transferOk() {
   setTimeout(() => {
     window.location.href = '/words'
-  }, 1500)
+  },                                                 1500)
 }
 
 // 退出登录

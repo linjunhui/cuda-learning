@@ -153,5 +153,62 @@
     "translateLanguage": "common",
     "language": "en",
     "cover": ""
+  },
+  {
+    "id": "article_alibi_attention",
+    "name": "ALiBi注意力与CUDA实现",
+    "description": "系统讲解ALiBi（Attention with Linear Biases）的位置偏置思想、数学公式、与因果注意力的结合方式，以及在CUDA中的并行实现流程。通过阅读英文技术段落并对照中文翻译，你可以背诵整套ALiBi注意力的计算流程，理解一行一块（one row per block）的线程组织、Safe Softmax、warp级归约等关键实现细节。",
+    "category": "文章学习",
+    "tags": [
+      "CUDA",
+      "Attention",
+      "ALiBi",
+      "位置编码",
+      "深度学习"
+    ],
+    "url": "ALIBI_ATTENTION.json",
+    "length": 8,
+    "translateLanguage": "common",
+    "language": "en",
+    "cover": ""
+  },
+  {
+    "id": "article_growth_change",
+    "name": "成长与改变：自我觉察与情绪管理",
+    "description": "深入探讨个人成长、情绪管理、钝感力培养和亲密关系沟通。通过自我剖析认识情绪模式，学习情绪即时止损、课题分离、低压力沟通等实用技巧。通过阅读英文内容并对照中文翻译，在提升英语水平的同时掌握自我成长的方法。",
+    "category": "文章学习",
+    "tags": [
+      "成长",
+      "改变",
+      "情绪管理",
+      "自我觉察",
+      "心理学",
+      "人际关系"
+    ],
+    "url": "GROWTH_CHANGE.json",
+    "length": 2,
+    "translateLanguage": "common",
+    "language": "en",
+    "cover": ""
+  },
+  {
+    "id": "article_socialization_guide",
+    "name": "社会化指南：内向者的社交实用手册",
+    "description": "专为内向者设计的社交实用指南，涵盖社交基础逻辑、克服社交恐惧、开启对话技巧、职场沟通、聚会礼仪、礼物挑选等全方位内容。通过阅读英文内容并对照中文翻译，在提升英语水平的同时学习实用的社交技巧，帮助你在保持自我的同时更从容地应对各种社交场景。",
+    "category": "文章学习",
+    "tags": [
+      "社交",
+      "内向",
+      "沟通",
+      "职场",
+      "人际关系",
+      "情商",
+      "实用技巧"
+    ],
+    "url": "SOCIALIZATION_GUIDE.json",
+    "length": 10,
+    "translateLanguage": "common",
+    "language": "en",
+    "cover": ""
   }
 ]
