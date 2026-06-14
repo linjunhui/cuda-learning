@@ -6,10 +6,11 @@
 #   1. 手动执行：./sync_md_files.sh
 #   2. 定期执行：使用 cron 或 systemd timer
 
-# 配置变量
+# 配置变量（脚本在 文档与工具/ 下，仓库根为其上一级）
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-SOURCE_DIR="$SCRIPT_DIR"
-TARGET_DIR="$SCRIPT_DIR/文档收集"
+REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+SOURCE_DIR="$REPO_ROOT"
+TARGET_DIR="$REPO_ROOT/职业与通识/文档收集"
 LOG_FILE="$SCRIPT_DIR/sync_md_files.log"
 DATE_FORMAT="%Y-%m-%d %H:%M:%S"
 
